@@ -1,0 +1,32 @@
+{
+  "en": {
+    "nav": {
+      "about": "About Us",
+      "contact": "Contact",
+      "history": "History",
+      "projects": "Projects",
+      "news": "News"
+    },
+    "hero": {
+      "title": "Welcome to Our Company",
+      "subtitle": "Building the future, one project at a time."
+    },
+    "sections": {
+    }
+  },
+  "sw": {
+    "nav": {
+      "about": "Kuhusu Sisi",
+      "contact": "Wasiliana Nasi",
+      "history": "Historia",
+      "projects": "Miradi",
+      "news": "Habari"
+    },
+    "hero": {
+      "title": "Karibu kwenye Kampuni Yetu",
+      "subtitle": "Tunajenga mustakabali, mradi mmoja kwa wakati mmoja."
+    },
+    "sections": {
+    }
+  }
+}

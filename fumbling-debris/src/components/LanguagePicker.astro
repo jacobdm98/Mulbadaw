@@ -1,0 +1,23 @@
+---
+const currentPath = Astro.url.pathname;
+const isSwahili = currentPath.startsWith('/sw');
+---
+<div class="flex items-center gap-3">
+  <!-- UK Flag -->
+  <a href={currentPath.replace(/^\/(en|sw)/, '/en')} class="hover:opacity-80 transition-opacity">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="24" height="18" class={!isSwahili ? 'ring-2 ring-black rounded-sm' : ''}>
+      <clipPath id="a"><path d="M30 15h30v15H30zM0 15h30v15H0zM30 0h30v15H30zM0 0h30v15H0z"/></clipPath>
+      <path d="M0 0h60v30H0z" fill="#012169"/><path d="M0 0l60 30m0-30L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0l60 30m0-30L0 30" stroke="#C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6"/>
+    </svg>
+  </a>
+
+  <!-- Tanzania Flag -->
+<a href={currentPath.replace(/^\/(en|sw)/, '/sw')} class="hover:opacity-80 transition-opacity">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" width="24" height="18" class={isSwahili ? 'ring-2 ring-black rounded-sm' : ''}>
+    <rect width="3" height="2" fill="#1eb53a"/>
+    <path d="M0 2h3V0z" fill="#00a3dd"/>
+    <path d="M0 2.1L3.1 0H3L0 1.9Z" fill="#fcd116"/>
+    <path d="M0 1.95L2.95 0H2.65L0 1.65Z" fill="#000"/>
+  </svg>
+</a>
+</div>

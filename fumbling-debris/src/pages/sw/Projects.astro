@@ -1,0 +1,29 @@
+---
+// src/pages/en/Projects.astro
+import Layout from './../../layouts/Layout.astro';
+import ProjectCard from './../../components/ProjectCard.astro';
+import data from '../../data/translations/Projects.json';
+const { sw } = data;
+
+import '../../styles/global.css';
+
+// This data could eventually come from Sanity or a JSON file
+const projects = data.sw.projects;
+
+---
+
+<Layout title="Our Projects" lang="sw">
+  <h1 class="text-4xl font-bold mb-8">Our Projects</h1>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {projects.map((project) => (
+      <ProjectCard 
+        title={project.title}
+        description={project.description}
+        image={project.image}
+        link={project.link}
+        lang="sw"
+      />
+    ))}
+  </div>
+</Layout>

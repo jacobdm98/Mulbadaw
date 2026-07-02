@@ -1,0 +1,88 @@
+---
+// src/layouts/Layout.astro
+import LanguagePicker from '../components/LanguagePicker.astro';
+import data from '../data/translations/NavHero.json';
+
+// Define the properties this layout expects
+interface Props {
+  title: string;
+  lang: 'en' | 'sw';
+}
+
+const { title, lang } = Astro.props;
+
+// Define your navigation links
+const t = data[lang].nav; 
+
+const navLinks = [
+  { name: t.about, href: `/${lang}/about` },
+  { name: t.contact, href: `/${lang}/contact` },
+  { name: t.history, href: `/${lang}/history` },
+  { name: t.projects, href: `/${lang}/Projects` },
+  { name: t.news, href: `/${lang}/news` },
+];
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+    
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm p-4 relative">
+  <div class="max-w-6xl mx-auto flex justify-between items-center">
+    
+    <!-- Left: Logo -->
+    <a href={`/${lang}/`} class="text-xl font-bold text-yellow-700">HLH Mulbadaw LTD</a>
+
+    <!-- Desktop: Centered Links -->
+    <div class="hidden md:flex flex-grow justify-center">
+      <ul class="flex space-x-8">
+        {navLinks.map(link => (
+          <li>
+            <a href={link.href} class="hover:text-yellow-700 font-medium transition-colors">
+              {link.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Right: Flags -->
+    <div class="hidden md:flex">
+      <LanguagePicker />
+    </div>
+
+    <!-- Mobile: Hamburger Menu Button -->
+    <label for="menu-toggle" class="md:hidden cursor-pointer p-2">
+      <div class="w-6 h-0.5 bg-gray-800 mb-1.5"></div>
+      <div class="w-6 h-0.5 bg-gray-800 mb-1.5"></div>
+      <div class="w-6 h-0.5 bg-gray-800"></div>
+    </label>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <input type="checkbox" id="menu-toggle" class="hidden peer" />
+  <div class="hidden peer-checked:flex flex-col items-center py-4 bg-white border-t md:hidden">
+    {navLinks.map(link => (
+      <a href={link.href} class="py-2">{link.name}</a>
+    ))}
+    <div class="mt-4"><LanguagePicker /></div>
+  </div>
+</nav>
+
+    <!-- Page Content -->
+    <main class="max-w-6xl mx-auto p-6 flex-grow w-full">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-6 text-center text-gray-500 border-t mt-12">
+      &copy; {new Date().getFullYear()} HLH Mulbadaw LTD
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+---
+// src/pages/index.astro
+import Layout from '../../layouts/Layout.astro';
+import data from '../../data/translations/NavHero.json';
+const { sw } = data;
+import '../../styles/global.css';
+---
+
+<Layout title={sw.hero.title} lang="sw">
+  
+  <!-- Hero Section with Background Image -->
+  <section 
+    class="relative h-[540px] flex items-center justify-center text-white rounded-xl overflow-hidden mb-12"
+    style="background-image: url('../../../public/images/hero.jpg'); background-size: cover; background-position: center;"
+  >
+    <!-- Overlay for better text readability -->
+    <div class="absolute inset-0 bg-black/30"></div>
+    
+    <div class="relative z-10 text-center px-4">
+      <h1 class="text-5xl font-bold mb-4">{sw.hero.title}</h1>
+      <p class="text-xl">{sw.hero.subtitle}</p>
+    </div>
+  </section>
+
+</Layout>

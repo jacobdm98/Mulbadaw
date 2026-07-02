@@ -1,0 +1,34 @@
+{
+  "en": {
+    "projects": [
+      {
+        "title": "Living Lab",
+        "description": "Digital learning for local farmers",
+        "image": "../public/images/JamboMaishaCard.jpg",
+        "link": "/en/projects/living-lab"
+      },
+      {
+        "title": "Clean Water Project",
+        "description": "Building new filtration systems in urban centers.",
+        "image": "../public/images/WaterCard.jpg",
+        "link": "/en/projects/clean-water"
+    }
+    ]
+  },
+  "sw": {
+     "projects": [
+      {
+        "title": "Kiwanda cha Maisha",
+        "description": "Kujifunza kidijitali kwa wakulima wa ndani",
+         "image": "../public/images/JamboMaishaCard.jpg",
+        "link": "/sw/projects/living-lab"
+      },
+      {
+        "title": "Mipango ya Maji Safi",
+        "description": "Kujenga vifaa vya usambazaji katika mikutano.",
+        "image": "/images/water.jpg",
+        "link": "/en/projects/clean-water"
+    }
+    ]
+  }
+}
