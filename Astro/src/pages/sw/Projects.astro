@@ -2,14 +2,9 @@
 // src/pages/en/Projects.astro
 import Layout from './../../layouts/Layout.astro';
 import ProjectCard from './../../components/ProjectCard.astro';
-import data from '../../data/translations/Projects.json';
+import data from '../../data/translations/ProjectsCard.json';
 const { sw } = data;
-
-import '../../styles/global.css';
-
-// This data could eventually come from Sanity or a JSON file
 const projects = data.sw.projects;
-
 ---
 
 <Layout title="Our Projects" lang="sw">

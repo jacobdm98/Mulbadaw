@@ -2,6 +2,7 @@
 // src/layouts/Layout.astro
 import LanguagePicker from '../components/LanguagePicker.astro';
 import data from '../data/translations/NavHero.json';
+import '../styles/global.css';
 
 // Define the properties this layout expects
 interface Props {
@@ -16,10 +17,10 @@ const t = data[lang].nav;
 
 const navLinks = [
   { name: t.about, href: `/${lang}/about` },
-  { name: t.contact, href: `/${lang}/contact` },
-  { name: t.history, href: `/${lang}/history` },
   { name: t.projects, href: `/${lang}/Projects` },
   { name: t.news, href: `/${lang}/news` },
+  { name: t.contact, href: `/${lang}/contact` }
+  
 ];
 ---
 

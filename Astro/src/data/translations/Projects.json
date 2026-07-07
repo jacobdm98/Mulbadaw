@@ -1,0 +1,34 @@
+{
+    "en": {
+        "projects": [
+        {
+            "title": "Living Lab",
+            "description": "Digital learning for local farmers",
+            "image": "/images/living-lab.jpg",
+            "text": "JamboMaisha is a digital learning platform that empowers local farmers with knowledge and skills to improve their agricultural practices. Through interactive modules, farmers can access information on sustainable farming techniques, crop management, and market trends.",
+        },
+        {
+            "title": "Clean Water Initiatives",
+            "description": "Building distribution facilities in communities.",
+            "image": "/images/water.jpg",
+            "link": "/en/projects/clean-water"
+        }
+        ]
+    },
+    "sw": {
+        "projects": [
+        {
+            "title": "Maabara ya Maisha",
+            "description": "Kujifunza kidijitali kwa wakulima wa eneo hilo",
+            "image": "/images/living-lab.jpg",
+            "link": "/sw/projects/living-lab"
+        },
+        {
+            "title": "Mipango ya Maji Safi",
+            "description": "Kujenga vifaa vya usambazaji katika mikutano.",
+            "image": "/images/water.jpg",
+            "link": "/sw/projects/clean-water"
+        }
+        ]
+    }
+}

@@ -5,7 +5,7 @@
         "title": "Living Lab",
         "description": "Digital learning for local farmers",
         "image": "../public/images/JamboMaishaCard.jpg",
-        "link": "/en/projects/living-lab"
+        "link": "/en/projects/LivingLab"
       },
       {
         "title": "Clean Water Project",
@@ -21,13 +21,13 @@
         "title": "Kiwanda cha Maisha",
         "description": "Kujifunza kidijitali kwa wakulima wa ndani",
          "image": "../public/images/JamboMaishaCard.jpg",
-        "link": "/sw/projects/living-lab"
+        "link": "/sw/projects/LivingLab"
       },
       {
         "title": "Mipango ya Maji Safi",
         "description": "Kujenga vifaa vya usambazaji katika mikutano.",
         "image": "/images/water.jpg",
-        "link": "/en/projects/clean-water"
+        "link": "/sw/projects/clean-water"
     }
     ]
   }
