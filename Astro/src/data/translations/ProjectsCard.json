@@ -8,10 +8,10 @@
         "link": "/en/projects/LivingLab"
       },
       {
-        "title": "Clean Water Project",
-        "description": "Building new filtration systems in urban centers.",
-        "image": "/images/WaterCard.jpg",
-        "link": "/en/projects/clean-water"
+        "title": "Example Project",
+        "description": "example project description.",
+        "image": "/xxx/xxx.jpg",
+        "link": "/en/projects/example-project"
     }
     ]
   },
@@ -24,10 +24,10 @@
         "link": "/sw/projects/LivingLab"
       },
       {
-        "title": "Mipango ya Maji Safi",
-        "description": "Kujenga vifaa vya usambazaji katika mikutano.",
-        "image": "/images/water.jpg",
-        "link": "/sw/projects/clean-water"
+        "title": "Example Project",
+        "description": "Hiki ni maelezo ya example project.",
+        "image": "/xxx/xxx.jpg",
+        "link": "/sw/projects/example-project"
     }
     ]
   }

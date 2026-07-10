@@ -1,3 +1,5 @@
+//this is not in use yet
+
 {
     "en": {
         "projects": [
@@ -5,13 +7,13 @@
             "title": "Living Lab",
             "description": "Digital learning for local farmers",
             "image": "/images/living-lab.jpg",
-            "text": "JamboMaisha is a digital learning platform that empowers local farmers with knowledge and skills to improve their agricultural practices. Through interactive modules, farmers can access information on sustainable farming techniques, crop management, and market trends.",
+            "text": "JamboMaisha is a digital learning platform that empowers local farmers with knowledge and skills to improve their agricultural practices. Through interactive modules, farmers can access information on sustainable farming techniques, crop management, and market trends."
         },
         {
-            "title": "Clean Water Initiatives",
-            "description": "Building distribution facilities in communities.",
-            "image": "/images/water.jpg",
-            "link": "/en/projects/clean-water"
+            "title": "example project",
+            "description": "This is an example project description.",
+            "image": "/xxx/xxx.jpg",
+            "link": "/en/projects/example-project"
         }
         ]
     },
@@ -24,10 +26,10 @@
             "link": "/sw/projects/living-lab"
         },
         {
-            "title": "Mipango ya Maji Safi",
-            "description": "Kujenga vifaa vya usambazaji katika mikutano.",
-            "image": "/images/water.jpg",
-            "link": "/sw/projects/clean-water"
+            "title": "example project",
+            "description": "Hiki ni maelezo ya example project.",
+            "image": "/xxx/xxx.jpg",
+            "link": "/sw/projects/example-project"
         }
         ]
     }
