@@ -1,0 +1,205 @@
+---
+// src/pages/gallery.astro
+import Layout from '../../layouts/Layout.astro';
+import { sanityClient } from 'sanity:client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+const builder = createImageUrlBuilder({
+  projectId: 'tyk7mbom',
+  dataset: 'production',
+});
+
+// GROQ query that fetches the main gallery and dereferences the sub-gallery albums ->
+const query = `*[_type == "mainGallery"][0]{
+  "albums": albums[]->{
+    title,
+    coverImage,
+    photos[]{
+      ...,
+      // If it's a video item, ensure we keep its metadata structure intact
+    }
+  }
+}`;
+
+const data = await sanityClient.fetch(query);
+const albums = data?.albums || [];
+
+function getFileUrl(ref: string) {
+  const [, id, extension] = ref.split('-');
+  return `https://cdn.sanity.io/files/tyk7mbom/production/${id}.${extension}`;
+}
+---
+
+<Layout title="Our Gallery Albums" lang="en">
+  <main class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-8">Photo & Video Albums</h1>
+
+    {albums.length === 0 ? (
+      <p class="text-gray-500">No albums created yet. Go to <a href="/admin" class="text-blue-600 underline">/admin</a> to add sub-galleries.</p>
+    ) : (
+      <div class="space-y-16">
+        {albums.map((album: any, albumIndex: number) => (
+          <section class="border-b pb-12">
+            <h2 class="text-2xl font-semibold mb-6">{album.title}</h2>
+
+            {/* Grid of photos/videos inside this specific sub-gallery */}
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {album.photos?.map((item: any, itemIndex: number) => {
+                const isVideo = item._type === 'videoItem';
+                const imageUrl = item.image ? builder.image(item.image).width(600).height(400).fit('crop').url() : '';
+                const videoUrl = isVideo && item.videoFile?.asset?._ref ? getFileUrl(item.videoFile.asset._ref) : '';
+
+                return (
+                  <div 
+                    class="gallery-thumb cursor-pointer bg-white border rounded-lg shadow-sm overflow-hidden flex flex-col transition hover:scale-[1.02]"
+                    data-album={albumIndex}
+                    data-index={itemIndex}
+                  >
+                    {isVideo ? (
+                      <div class="relative w-full h-60 bg-black flex items-center justify-center">
+                        <video src={videoUrl} class="w-full h-60 object-cover pointer-events-none"></video>
+                        <span class="absolute bg-black/60 text-white p-2 rounded-full text-sm">▶ Video</span>
+                      </div>
+                    ) : (
+                      imageUrl && <img src={imageUrl} alt={item.alt || 'Gallery photo'} class="w-full h-60 object-cover pointer-events-none" />
+                    )}
+                    {item.caption && <p class="p-4 text-gray-600 text-sm pointer-events-none">{item.caption}</p>}
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        ))}
+      </div>
+    )}
+
+    {/* Lightbox Modal */}
+    <div id="lightbox" class="fixed inset-0 bg-black/95 z-50 hidden flex-col items-center justify-between p-4 md:p-8">
+      <div class="w-full flex justify-end">
+        <button id="lightbox-close" class="text-white text-3xl font-bold p-2 hover:text-gray-300">&times;</button>
+      </div>
+
+      <div class="relative flex items-center justify-center max-w-5xl w-full flex-grow">
+        <button id="lightbox-prev" class="absolute left-0 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full text-xl z-10">&#10094;</button>
+        
+        <div class="flex flex-col items-center max-h-[70vh] w-full justify-center">
+          <div id="lightbox-media-container" class="flex items-center justify-center max-h-[60vh] w-full"></div>
+          <p id="lightbox-caption" class="text-white mt-4 text-center text-lg"></p>
+        </div>
+
+        <button id="lightbox-next" class="absolute right-0 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full text-xl z-10">&#10095;</button>
+      </div>
+
+      <div class="w-full overflow-x-auto py-2">
+        <div id="lightbox-strip" class="flex items-center justify-center gap-3 min-w-max px-4"></div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script define:vars={{ albums }}>
+  let currentAlbumIndex = 0;
+  let currentIndex = 0;
+
+  const lightbox = document.getElementById('lightbox');
+  const mediaContainer = document.getElementById('lightbox-media-container');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const lightboxStrip = document.getElementById('lightbox-strip');
+  
+  const closeBtn = document.getElementById('lightbox-close');
+  const prevBtn = document.getElementById('lightbox-prev');
+  const nextBtn = document.getElementById('lightbox-next');
+
+  function getImageUrl(source, width, height) {
+    const ref = source.asset._ref;
+    const [, id, dimensions, extension] = ref.split('-');
+    return `https://cdn.sanity.io/images/tyk7mbom/production/${id}-${dimensions}.${extension}?w=${width}&h=${height}&fit=crop`;
+  }
+
+  function getFileUrl(ref) {
+    const [, id, extension] = ref.split('-');
+    return `https://cdn.sanity.io/files/tyk7mbom/production/${id}.${extension}`;
+  }
+
+  function updateLightbox() {
+    const currentAlbum = albums[currentAlbumIndex];
+    const item = currentAlbum.photos[currentIndex];
+    
+    lightboxCaption.textContent = item.caption || '';
+    mediaContainer.innerHTML = '';
+
+    const isVideo = item._type === 'videoItem';
+
+    if (isVideo && item.videoFile?.asset?._ref) {
+      const video = document.createElement('video');
+      video.src = getFileUrl(item.videoFile.asset._ref);
+      video.controls = true;
+      video.autoplay = true;
+      video.className = 'max-h-[60vh] max-w-full rounded object-contain';
+      mediaContainer.appendChild(video);
+    } else if (item.image) {
+      const img = document.createElement('img');
+      img.src = getImageUrl(item.image, 1200, 800);
+      img.className = 'max-h-[60vh] max-w-full rounded object-contain';
+      mediaContainer.appendChild(img);
+    }
+
+    // Render neighbor thumbnails for the active album
+    lightboxStrip.innerHTML = '';
+    currentAlbum.photos.forEach((p, idx) => {
+      const thumbContainer = document.createElement('div');
+      thumbContainer.className = `cursor-pointer transition rounded overflow-hidden border-2 ${idx === currentIndex ? 'border-white scale-105' : 'border-transparent opacity-50 hover:opacity-100'}`;
+      thumbContainer.onclick = () => {
+        currentIndex = idx;
+        updateLightbox();
+      };
+
+      const isThumbVideo = p._type === 'videoItem';
+      const thumbMedia = document.createElement(isThumbVideo ? 'div' : 'img');
+      thumbMedia.className = 'w-16 h-12 object-cover bg-black flex items-center justify-center text-xs text-white';
+      
+      if (isThumbVideo) {
+        thumbMedia.textContent = '▶';
+      } else if (p.image) {
+        thumbMedia.src = getImageUrl(p.image, 100, 80);
+      }
+
+      thumbContainer.appendChild(thumbMedia);
+      lightboxStrip.appendChild(thumbContainer);
+    });
+  }
+
+  document.querySelectorAll('.gallery-thumb').forEach((card) => {
+    card.addEventListener('click', () => {
+      currentAlbumIndex = parseInt(card.getAttribute('data-album'), 10);
+      currentIndex = parseInt(card.getAttribute('data-index'), 10);
+      updateLightbox();
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+    });
+  });
+
+  prevBtn.onclick = (e) => { 
+    e.stopPropagation(); 
+    const photosCount = albums[currentAlbumIndex].photos.length;
+    currentIndex = (currentIndex - 1 + photosCount) % photosCount; 
+    updateLightbox(); 
+  };
+  
+  nextBtn.onclick = (e) => { 
+    e.stopPropagation(); 
+    const photosCount = albums[currentAlbumIndex].photos.length;
+    currentIndex = (currentIndex + 1) % photosCount; 
+    updateLightbox(); 
+  };
+
+  closeBtn.onclick = () => { lightbox.classList.add('hidden'); lightbox.classList.remove('flex'); };
+  lightbox.onclick = (e) => { if (e.target === lightbox) { lightbox.classList.add('hidden'); lightbox.classList.remove('flex'); } };
+
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.classList.contains('hidden')) return;
+    if (e.key === 'ArrowLeft') prevBtn.click();
+    if (e.key === 'ArrowRight') nextBtn.click();
+    if (e.key === 'Escape') closeBtn.click();
+  });
+</script>
