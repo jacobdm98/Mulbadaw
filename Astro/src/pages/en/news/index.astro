@@ -1,0 +1,44 @@
+---
+// src/pages/news/index.astro
+import Layout from '../../../layouts/Layout.astro';
+import { sanityClient } from 'sanity:client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+const builder = createImageUrlBuilder({
+  projectId: 'tyk7mbom',
+  dataset: 'production',
+});
+
+const articles = await sanityClient.fetch(`*[_type == "article"] | order(publishedAt desc){
+  title,
+  slug,
+  publishedAt,
+  mainImage
+}`);
+---
+
+<Layout title="News & Articles" lang="en">
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-8">News & Updates</h1>
+
+    <div class="grid gap-6">
+      {articles.map((article: any) => (
+        <a href={`/en/news/${article.slug.current}`} class="flex gap-4 bg-white border rounded-lg p-4 shadow-sm hover:shadow-md transition">
+          {article.mainImage && (
+            <img 
+              src={builder.image(article.mainImage).width(200).height(150).fit('crop').url()} 
+              alt={article.title} 
+              class="w-32 h-24 object-cover rounded"
+            />
+          )}
+          <div>
+            <h2 class="text-xl font-semibold">{article.title}</h2>
+            {article.publishedAt && (
+              <p class="text-gray-400 text-sm mt-1">{new Date(article.publishedAt).toLocaleDateString()}</p>
+            )}
+          </div>
+        </a>
+      ))}
+    </div>
+  </main>
+</Layout>

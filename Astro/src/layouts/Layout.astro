@@ -21,8 +21,8 @@ const navLinks = [
   { name: t.history, href: `/${lang}/history` },
   { name: t.gallery, href: `/${lang}/gallery` },
   { name: t.news, href: `/${lang}/news` },
-  { name: t.contact, href: `/${lang}/contact` }
-  
+  { name: t.contact, href: `/${lang}/contact` },
+  { name: t.jamboMaisha, href: `/${lang}/jamboMaisha` }
 ];
 ---
 
@@ -44,14 +44,24 @@ const navLinks = [
 
     <!-- Desktop: Centered Links -->
     <div class="hidden md:flex flex-grow justify-center">
-      <ul class="flex space-x-8">
-        {navLinks.map(link => (
-          <li>
-            <a href={link.href} class="hover:text-yellow-700 font-medium transition-colors">
-              {link.name}
-            </a>
-          </li>
-        ))}
+      <ul class="flex items-center space-x-8">
+        {navLinks.map((link, index) => {
+          const isLast = index === navLinks.length - 1;
+          return (
+            <li>
+              <a 
+                href={link.href} 
+                class={
+                  isLast 
+                    ? "bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-xs" 
+                    : "hover:text-yellow-700 font-medium transition-colors"
+                }
+              >
+                {link.name}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </div>
 
@@ -71,9 +81,21 @@ const navLinks = [
   <!-- Mobile Dropdown Menu -->
   <input type="checkbox" id="menu-toggle" class="hidden peer" />
   <div class="hidden peer-checked:flex flex-col items-center py-4 bg-white border-t md:hidden">
-    {navLinks.map(link => (
-      <a href={link.href} class="py-2">{link.name}</a>
-    ))}
+    {navLinks.map((link, index) => {
+      const isLast = index === navLinks.length - 1;
+      return (
+        <a 
+          href={link.href} 
+          class={
+            isLast 
+              ? "bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-medium transition-colors my-2 text-center w-3/4" 
+              : "py-2 text-gray-800"
+          }
+        >
+          {link.name}
+        </a>
+      );
+    })}
     <div class="mt-4"><LanguagePicker /></div>
   </div>
 </nav>

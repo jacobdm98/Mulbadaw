@@ -3,6 +3,8 @@ import { structureTool } from 'sanity/structure';
 //import { gallery } from './src/sanity/schemas/gallery';
 import { project } from './src/sanity/schemas/project';
 import { gallery } from './src/sanity/schemas/gallery';
+import { article } from './src/sanity/schemas/article';
+import { imageBlock, videoBlock } from './src/sanity/schemas/mediaBlocks';
 
 export default defineConfig({
   name: 'default',
@@ -11,6 +13,6 @@ export default defineConfig({
   dataset: 'production',
   plugins: [structureTool()],
   schema: {
-    types: [ project, gallery ],
+    types: [project, gallery, article, imageBlock, videoBlock],
   },
 });

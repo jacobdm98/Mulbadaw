@@ -1,0 +1,279 @@
+{
+    "en": {
+        "name": "JamboMaisha",
+
+        "tagline":
+            "A new way for individuals and communities to build prosperous lives with skills, health and financial resilience.",
+
+        "about": {
+            "title": "What is JamboMaisha?",
+            "description": [
+            "JamboMaisha is helping you create a better life for you and your family.",
+            "JamboMaisha offers different services and programs to help build skills, health and financial security through a member-based online platform via basic mobile phones.",
+            "JamboMaisha is targeting both individuals and families.",
+            "It is funded by the Norwegian Church Aid, and has already successfully profiled and trained 13,500 unique smallholder farmers, and delivered over 103,500 personalized agronomic text messages across 9 different regions in Tanzania."
+            ]
+        },
+
+        "problems": {
+            "title": "What problems does it help to solve?",
+            "items": [
+            {
+                "title": "Low income opportunities",
+                "description":
+                "Rural populations struggle to find employment or produce more than their own food, making it difficult to create a sustainable income for their families."
+            },
+            {
+                "title": "Poor knowledge of best practices",
+                "description":
+                "Vocational or agricultural best practices are often not known or practiced. Weather impacts are also difficult to plan for, leading to low production output and lower quality."
+            },
+            {
+                "title": "Missing services",
+                "description":
+                "Necessary services such as inputs, extension services and health services are unavailable or difficult to find due to geography, lack of information or lack of funds."
+            },
+            {
+                "title": "No smartphones or mobile web",
+                "description":
+                "Mobile coverage is increasingly available, but most users carry basic phones only, with access to calls and SMS but no mobile data."
+            },
+            {
+                "title": "Scaling is hard",
+                "description":
+                "Smallholder farmers are unable to scale production, sales or distribution due to weak funding, limited ecosystem support and poor market access."
+            }
+            ]
+        },
+
+        "solutions": {
+            "title": "How does JamboMaisha solve these problems?",
+            "items": [
+            {
+                "title": "Skills and community",
+                "description":
+                "Enable access to best practices, extension services and vocational skills. Build social cohesion through groups based on interests, vocation or geography."
+            },
+            {
+                "title": "Ecosystem and market access",
+                "description":
+                "Connect farmers and artisans with markets and prices. Add anything-as-a-service, including tractors, crop drones, logistics, insurance and other services."
+            },
+            {
+                "title": "Financial inclusion",
+                "description":
+                "Provide access to loans and savings groups, insurance for health and crops, and fraud protection through mobile payments."
+            }
+            ]
+        },
+
+        "services": {
+            "title": "Solutions and services",
+            "items": [
+            "Savings and loans",
+            "Community",
+            "Agribusiness",
+            "Weather",
+            "Agritech",
+            "Logistics",
+            "Mobile payment",
+            "Insurance (health, crop, etc.)",
+            "Knowledge and education",
+            "Information services",
+            "Market information (pricing, buyers, sellers)",
+            "Aggregation and eTrade"
+            ]
+        },
+
+        "gettingStarted": {
+            "title": "How to get started",
+            "introduction":
+            "JamboMaisha relies on USSD technology and automated SMS messaging.",
+
+            "steps": [
+            {
+                "step": 1,
+                "title": "Accessing the USSD service on a basic phone",
+                "description":
+                "From any basic phone, dial the USSD shortcode:",
+                "shortcode": "*120*686#"
+            },
+            {
+                "step": 2,
+                "title": "Navigate the main menu",
+                "description":
+                "A text menu appears on the phone screen listing available categories, such as Marketplace, Jobs & Services, Housing, or Agriculture."
+            },
+            {
+                "step": 3,
+                "title": "Select options",
+                "description":
+                "Reply using the number corresponding to your desired service. For example, enter 2 for Jobs & Services or select a specific crop category such as Maize."
+            },
+            {
+                "step": 4,
+                "title": "Receive automated SMS guides and data",
+                "description":
+                "Sub-menu choices, such as extension advice or market price lookups, automatically send detailed SMS text messages containing technical instructions, market prices or agronomist contact details directly to your phone."
+            }
+            ]
+        },
+
+        "onsiteTraining": {
+            "title": "Onsite training programs",
+            "description": [
+            "JamboMaisha also has onsite training programs managed by field officers.",
+            "With the help of smart projectors, locals can receive training on the JamboMaisha platform and afterwards help their own local communities."
+            ]
+        },
+
+        "contact": {
+            "title": "Interested in learning more?",
+            "description": "If you are interested in learning more or setting up an onsite training program, please contact:",
+            "person": "Oscar Italazyo",
+            "phone": "+255683044445",
+            "email": "oscar.italazyo@nca.no",
+            "organization": "Norwegian Church Aid",
+            "website": "https://www.nca.no"
+        }
+    },
+    "sw": {
+    "name": "JamboMaisha",
+
+    "tagline":
+        "Njia mpya kwa watu binafsi na jamii kujenga maisha yenye mafanikio kwa ujuzi, afya na ustahimilivu wa kifedha.",
+
+    "about": {
+        "title": "JamboMaisha ni nini?",
+        "description": [
+            "JamboMaisha inakusaidia kuunda maisha bora kwa ajili yako na familia yako.",
+            "JamboMaisha inatoa huduma na programu mbalimbali kusaidia kujenga ujuzi, afya na usalama wa kifedha kupitia jukwaa la mtandaoni la wanachama kupitia simu za kimsingi.",
+            "JamboMaisha inalenga watu binafsi na familia.",
+            "Inafadhiliwa na Misaada ya Kanisa la Norway, na tayari imefanikiwa kuorodhesha na kufundisha wakulima wadogo 13,500 wa kipekee, na kutoa jumla ya ujumbe wa maandishi wa kilimo wa kibinafsi zaidi ya 103,500 katika mikoa 9 tofauti nchini Tanzania."
+        ]
+    },
+
+    "problems": {
+        "title": "Inasaidia kutatua changamoto gani?",
+        "items": [
+            {
+                "title": "Fursa chache za kipato",
+                "description":
+                    "Watu wanaoishi maeneo ya vijijini wanapata changamoto kupata ajira au kuzalisha zaidi ya chakula cha kujikimu, jambo linalofanya iwe vigumu kupata kipato endelevu kwa ajili ya familia zao."
+            },
+            {
+                "title": "Ukosefu wa maarifa kuhusu mbinu bora",
+                "description":
+                    "Mbinu bora za ufundi na kilimo mara nyingi hazijulikani au hazitumiki ipasavyo. Mabadiliko ya hali ya hewa pia ni magumu kutabiri na kuyapanga, hali inayosababisha uzalishaji mdogo na ubora wa chini."
+            },
+            {
+                "title": "Ukosefu wa huduma",
+                "description":
+                    "Huduma muhimu kama pembejeo za kilimo, huduma za ugani na huduma za afya hazipatikani au ni vigumu kuzipata kutokana na umbali wa kijiografia, ukosefu wa taarifa au ukosefu wa fedha."
+            },
+            {
+                "title": "Hakuna simu janja au intaneti ya simu",
+                "description":
+                    "Mtandao wa simu unazidi kupatikana, lakini watumiaji wengi bado wanatumia simu za kimsingi zenye uwezo wa kupiga simu na kutuma SMS, bila huduma ya intaneti ya simu."
+            },
+            {
+                "title": "Ni vigumu kukuza shughuli",
+                "description":
+                    "Wakulima wadogo wanashindwa kuongeza uzalishaji, mauzo au usambazaji kutokana na ukosefu wa fedha za kutosha, msaada mdogo kutoka kwenye mifumo ya biashara na upatikanaji mdogo wa masoko."
+            }
+        ]
+    },
+
+    "solutions": {
+        "title": "JamboMaisha inatatua vipi changamoto hizi?",
+        "items": [
+            {
+                "title": "Ujuzi na jamii",
+                "description":
+                    "Kuwezesha upatikanaji wa mbinu bora, huduma za ugani na ujuzi wa ufundi. Kujenga mshikamano wa kijamii kupitia vikundi vinavyoundwa kulingana na maslahi, taaluma au eneo la kijiografia."
+            },
+            {
+                "title": "Mfumo wa biashara na upatikanaji wa masoko",
+                "description":
+                    "Kuunganisha wakulima na mafundi na masoko pamoja na taarifa za bei. Kuwezesha upatikanaji wa huduma mbalimbali, ikiwa ni pamoja na matrekta, droni za kilimo, usafirishaji, bima na huduma nyingine."
+            },
+            {
+                "title": "Ushirikishwaji wa kifedha",
+                "description":
+                    "Kutoa fursa ya kupata mikopo na vikundi vya kuweka akiba, bima ya afya na mazao, pamoja na ulinzi dhidi ya ulaghai kupitia malipo ya simu."
+            }
+        ]
+    },
+
+    "services": {
+        "title": "Suluhisho na huduma",
+        "items": [
+            "Akiba na mikopo",
+            "Jamii",
+            "Biashara ya kilimo",
+            "Hali ya hewa",
+            "Teknolojia ya kilimo",
+            "Usafirishaji",
+            "Malipo ya simu",
+            "Bima (afya, mazao, n.k.)",
+            "Maarifa na elimu",
+            "Huduma za taarifa",
+            "Taarifa za soko (bei, wanunuzi, wauzaji)",
+            "Ukusanyaji na biashara mtandaoni"
+        ]
+    },
+
+    "gettingStarted": {
+        "title": "Jinsi ya kuanza",
+        "introduction":
+            "JamboMaisha inatumia teknolojia ya USSD na mfumo wa kutuma ujumbe wa SMS kiotomatiki.",
+
+        "steps": [
+            {
+                "step": 1,
+                "title": "Kupata huduma ya USSD kwa kutumia simu ya kimsingi",
+                "description":
+                    "Kwa kutumia simu yoyote ya kimsingi, piga namba fupi ya USSD:",
+                "shortcode": "*120*686#"
+            },
+            {
+                "step": 2,
+                "title": "Fungua menyu kuu",
+                "description":
+                    "Menyu ya maandishi itaonekana kwenye skrini ya simu ikionyesha aina mbalimbali za huduma zinazopatikana, kama vile Soko, Ajira na Huduma, Makazi au Kilimo."
+            },
+            {
+                "step": 3,
+                "title": "Chagua huduma",
+                "description":
+                    "Jibu kwa kutumia namba inayolingana na huduma unayotaka. Kwa mfano, weka 2 kwa Ajira na Huduma, au chagua aina maalum ya zao kama vile Mahindi."
+            },
+            {
+                "step": 4,
+                "title": "Pokea mwongozo na taarifa kupitia SMS kiotomatiki",
+                "description":
+                    "Chaguo za menyu ndogo, kama vile ushauri wa huduma za ugani au taarifa za bei za soko, zitatuma moja kwa moja ujumbe wa SMS wenye maelekezo ya kitaalamu, bei za soko au mawasiliano ya wataalamu wa kilimo kwenye simu yako."
+            }
+        ]
+    },
+
+    "onsiteTraining": {
+        "title": "Programu za mafunzo ya ana kwa ana",
+        "description": [
+            "JamboMaisha pia ina programu za mafunzo ya ana kwa ana zinazosimamiwa na maafisa wa uwanjani.",
+            "Kwa msaada wa projekta janja, wananchi wanaweza kupata mafunzo kuhusu jukwaa la JamboMaisha na baadaye kuwasaidia watu wengine katika jamii zao."
+        ]
+    },
+
+    "contact": {
+        "title": "Ungependa kujifunza zaidi?",
+        "description":
+            "Ikiwa ungependa kujifunza zaidi au kuanzisha programu ya mafunzo ya ana kwa ana, tafadhali wasiliana na:",
+        "person": "Oscar Italazyo",
+        "phone": "+255683044445",
+        "email": "oscar.italazyo@nca.no",
+        "organization": "Norwegian Church Aid",
+        "website": "https://www.nca.no"
+    }
+}
+}

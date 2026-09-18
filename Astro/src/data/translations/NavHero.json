@@ -6,8 +6,10 @@
       "history": "History",
       "gallery": "Gallery",
       "projects": "Projects",
-      "news": "News"
+      "news": "News",
+      "jamboMaisha": "Jambo Maisha"
     },
+
     "hero": {
       "title": "Welcome to Our Company",
       "subtitle": "Building the future, one project at a time."
@@ -22,7 +24,8 @@
       "history": "Historia",
       "gallery": "Chumbani",
       "projects": "Miradi",
-      "news": "Habari"
+      "news": "Habari",
+      "jamboMaisha": "Jambo Maisha"
     },
     "hero": {
       "title": "Karibu kwenye Kampuni Yetu",

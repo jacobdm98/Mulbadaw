@@ -5,6 +5,7 @@ Website for Mulbadaw farm
 
 - Bilde galleri -Ligge ind og ta ut, med mulighed for bilde tekst
 
+- Facebook, instagram på kontakt eller i footer
 
 -Snakke med Oskar -living labs 
 
