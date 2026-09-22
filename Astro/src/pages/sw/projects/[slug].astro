@@ -1,0 +1,14 @@
+---
+import ProjectDetail from '../../../components/ProjectDetail.astro';
+import { sanityClient } from 'sanity:client';
+
+export async function getStaticPaths() {
+  const projects = await sanityClient.fetch(`*[_type == "project" && defined(slug.current)]{ "slug": slug.current }`);
+  return projects.map((project: any) => ({ params: { slug: project.slug } }));
+}
+
+const project = await sanityClient.fetch(`*[_type == "project" && slug.current == $slug][0]{ title, description, content, mainImage }`, { slug: Astro.params.slug });
+if (!project) return Astro.redirect('/sw/projects');
+---
+
+<ProjectDetail project={project} lang="sw" />

@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { PortableText } from 'astro-portabletext';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+interface Props {
+  project: any;
+  lang: 'en' | 'sw';
+}
+
+const { project, lang } = Astro.props;
+const title = project.title?.[lang] || project.title?.en || 'Untitled';
+const description = project.description?.[lang] || project.description?.en || '';
+const content = project.content?.[lang] || project.content?.en || [];
+const builder = createImageUrlBuilder({ projectId: 'tyk7mbom', dataset: 'production' });
+const backLabel = lang === 'sw' ? 'Rudi kwenye miradi' : 'Back to projects';
+function fileUrl(ref: string) {
+  const [, id, extension] = ref.split('-');
+  return `https://cdn.sanity.io/files/tyk7mbom/production/${id}.${extension}`;
+}
+---
+
+<Layout title={title} lang={lang}>
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <a href={`/${lang}/projects`} class="text-blue-600 hover:underline text-sm mb-6 inline-block">&larr; {backLabel}</a>
+    <h1 class="text-4xl font-bold mb-4">{title}</h1>
+    {description && <p class="text-xl text-gray-600 mb-8">{description}</p>}
+    {project.mainImage && <img src={builder.image(project.mainImage).width(1200).height(650).fit('crop').url()} alt={title} class="w-full h-80 object-cover rounded-lg mb-8" />}
+    <div class="prose max-w-none">
+      <PortableText
+        value={content}
+        components={{
+          type: {
+            imageBlock: ({ node }: { node: any }) => {
+              if (!node.image) return null;
+              const caption = node.caption?.[lang] || node.caption?.en || '';
+              return (
+                <figure>
+                  <img src={builder.image(node.image).width(1000).fit('max').url()} alt={caption || title} class="w-full rounded-lg" />
+                  {caption && <figcaption class="text-center text-sm text-gray-500 mt-2">{caption}</figcaption>}
+                </figure>
+              );
+            },
+            videoBlock: ({ node }: { node: any }) => {
+              if (!node.videoFile?.asset?._ref) return null;
+              return <video src={fileUrl(node.videoFile.asset._ref)} controls class="w-full rounded-lg" />;
+            },
+          },
+        }}
+      />
+    </div>
+  </main>
+</Layout>

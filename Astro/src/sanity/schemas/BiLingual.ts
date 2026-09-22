@@ -1,18 +1,18 @@
 // src/sanity/schemas/BiLingual.ts
-import { defineField } from 'sanity';
+import { defineArrayMember, defineField } from 'sanity';
 
-export const localizedString = (name: string, title: string) => 
+export const localizedString = (name: string, title: string) =>
   defineField({
     name,
     title,
     type: 'object',
     fields: [
-      { name: 'en', title: 'English', type: 'string' },
-      { name: 'sw', title: 'Swahili (Kiswahili)', type: 'string' },
+      { name: 'en', title: 'English', type: 'text', rows: 2 },
+      { name: 'sw', title: 'Swahili (Kiswahili)', type: 'text', rows: 2 },
     ],
   });
 
-export const localizedBlock = (name: string, title: string) => 
+export const localizedBlock = (name: string, title: string) =>
   defineField({
     name,
     title,
@@ -23,13 +23,21 @@ export const localizedBlock = (name: string, title: string) =>
         title: 'English Content', 
         type: 'array', 
         // References global types by string name
-        of: [{ type: 'block' }, { type: 'imageBlock' }, { type: 'videoBlock' }] 
+        of: [
+          defineArrayMember({ type: 'block' }),
+          defineArrayMember({ type: 'imageBlock' }),
+          defineArrayMember({ type: 'videoBlock' }),
+        ],
       },
       { 
         name: 'sw', 
         title: 'Swahili Content (Kiswahili)', 
         type: 'array', 
-        of: [{ type: 'block' }, { type: 'imageBlock' }, { type: 'videoBlock' }] 
+        of: [
+          defineArrayMember({ type: 'block' }),
+          defineArrayMember({ type: 'imageBlock' }),
+          defineArrayMember({ type: 'videoBlock' }),
+        ],
       },
     ],
   });

@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from './ProjectCard.astro';
+import { sanityClient } from 'sanity:client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+interface Props {
+  lang: 'en' | 'sw';
+}
+
+const { lang } = Astro.props;
+const labels = {
+  en: { title: 'Projects', empty: 'No projects published yet.' },
+  sw: { title: 'Miradi', empty: 'Bado hakuna miradi iliyochapishwa.' },
+};
+const text = labels[lang];
+const builder = createImageUrlBuilder({ projectId: 'tyk7mbom', dataset: 'production' });
+const projects = await sanityClient.fetch(`*[_type == "project" && defined(slug.current)] | order(_createdAt desc){ title, description, slug, mainImage }`);
+---
+
+<Layout title={text.title} lang={lang}>
+  <main class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-8">{text.title}</h1>
+    {projects.length === 0 ? (
+      <p class="text-gray-500">{text.empty} <a href="/admin" class="text-blue-600 underline">/admin</a></p>
+    ) : (
+      <div class="grid gap-6 md:grid-cols-2">
+        {projects.map((project: any) => {
+          const title = project.title?.[lang] || project.title?.en || 'Untitled';
+          const description = project.description?.[lang] || project.description?.en || '';
+          const image = project.mainImage ? builder.image(project.mainImage).width(800).height(500).fit('crop').url() : '/images/Hero.jpg';
+          return <ProjectCard title={title} description={description} image={image} link={`/${lang}/projects/${project.slug.current}`} lang={lang} />;
+        })}
+      </div>
+    )}
+  </main>
+</Layout>

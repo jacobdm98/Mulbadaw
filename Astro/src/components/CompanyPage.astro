@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+interface Props {
+  lang: 'en' | 'sw';
+  page: 'about' | 'contact' | 'history';
+}
+
+const { lang, page } = Astro.props;
+const content = {
+  en: {
+    about: {
+      title: 'About HLH Mulbadaw Ltd',
+      sections: [
+        { heading: 'Our Foundation', paragraphs: ['Established in 2006, the Farm (HLH Mulbadaw Ltd) is a commercial, non-profit company guided by the core value: “Working together for His Praise and Glory.”', 'Our existence is linked to the Foundation Friends of Haydom (FOH), headquartered in Mandal, Norway. FOH serves as our de facto owner, ensuring that our commercial activities support Haydom Lutheran Hospital in Tanzania.'] },
+        { heading: 'Mission and Objectives', paragraphs: ['The Mulbadaw Farm operates as a profitable, sustainable mixed-farming enterprise that supports healthcare and development. Our goals include increasing food production, creating local jobs, facilitating research and education, and providing economic support to Haydom Lutheran Hospital.'] },
+        { heading: 'Our Values', paragraphs: ['We are grounded in Christian heritage and traditions, prioritizing respect for human dignity and the natural environment.'] },
+        { heading: 'Guidelines and Commitment', paragraphs: ['We are committed to sustainable management, community-focused farming methods, staff inclusivity, and environmental responsibility.'] },
+      ],
+    },
+    sw: {
+      title: 'Kuhusu HLH Mulbadaw Ltd',
+      sections: [
+        { heading: 'Msingi Wetu', paragraphs: ['Ilianzishwa mwaka 2006, Farm (HLH Mulbadaw Ltd) ni kampuni ya kibiashara isiyo ya faida inayoongozwa na thamani kuu: “Kufanya kazi pamoja kwa sifa na utukufu wa Mungu.”', 'Uwepo wetu unahusishwa na Foundation Friends of Haydom (FOH), yenye makao Mandal, Norway. FOH ni mmiliki wetu wa msingi na huhakikisha shughuli zetu za kibiashara zinaunga mkono Haydom Lutheran Hospital nchini Tanzania.'] },
+        { heading: 'Dhamira na Malengo', paragraphs: ['Mulbadaw Farm inaendesha kilimo mchanganyiko chenye faida na endelevu kinachosaidia afya na maendeleo. Malengo yetu ni kuongeza uzalishaji wa chakula, kuunda ajira za ndani, kuwezesha utafiti na elimu, na kutoa msaada wa kiuchumi kwa Haydom Lutheran Hospital.'] },
+        { heading: 'Maadili Yetu', paragraphs: ['Tumejengwa juu ya urithi na mila za Kikristo, tukiheshimu utu wa binadamu na mazingira asilia.'] },
+        { heading: 'Miongozo na Kujitolea', paragraphs: ['Tumejitolea kwa usimamizi endelevu, mbinu za kilimo zinazolenga jamii, ushirikishwaji wa wafanyakazi, na uwajibikaji wa mazingira.'] },
+      ],
+    },
+  },
+  contact: {
+    en: { title: 'Contact Us', intro: 'We would be glad to hear from you about the farm, our projects, or partnership opportunities.',
+      labels: ['Email', 'Phone', 'Address'],
+      values: ['info@mulbadaw.org', '+255 000 000 000', 'Mulbadaw Farm, Tanzania'] },
+    sw: { title: 'Wasiliana Nasi', intro: 'Tunafurahi kusikia kutoka kwako kuhusu shamba, miradi yetu, au fursa za ushirikiano.', 
+        labels: ['Barua pepe', 'Simu', 'Anwani'], 
+        values: ['info@mulbadaw.org', '+255 000 000 000', 'Mulbadaw Farm, Tanzania'] },
+  },
+
+  
+  history: {
+    en: { title: 'Our History', paragraphs: ['HLH Mulbadaw Ltd was established in 2006 to operate a sustainable farming enterprise whose work contributes to healthcare and development in Tanzania.', 'Since then, the farm has continued building local capacity, creating employment, and developing practical agricultural knowledge for the surrounding community.'] },
+    sw: { title: 'Historia Yetu', paragraphs: ['HLH Mulbadaw Ltd ilianzishwa mwaka 2006 ili kuendesha kilimo endelevu kinachochangia afya na maendeleo nchini Tanzania.', 'Tangu wakati huo, shamba limeendelea kujenga uwezo wa ndani, kuunda ajira, na kuendeleza maarifa ya kilimo kwa jamii inayolizunguka.'] },
+  },
+};
+
+const pageContent = (page === 'about'
+  ? lang === 'en' ? content.en.about : content.en.sw
+  : page === 'contact'
+    ? content.contact[lang]
+    : lang === 'en' ? content.history.en : content.history.sw) as any;
+---
+
+<Layout title={pageContent.title} lang={lang}>
+  <article class="max-w-4xl mx-auto px-4 py-12 prose prose-lg prose-blue max-w-none">
+    <h1 class="text-4xl font-bold mb-8">{pageContent.title}</h1>
+    {page === 'contact' ? (
+      <>
+        <p>{pageContent.intro}</p>
+        <dl class="not-prose grid gap-4 mt-8">
+          {pageContent.labels.map((label: string, index: number) => (
+            <div class="rounded-lg border bg-white p-5">
+              <dt class="font-semibold text-gray-900">{label}</dt>
+              <dd class="text-gray-600">{pageContent.values[index]}</dd>
+            </div>
+          ))}
+        </dl>
+      </>
+    ) : (
+      pageContent.sections ? pageContent.sections.map((section: { heading: string; paragraphs: string[] }) => (
+        <section class="mb-8">
+          <h2>{section.heading}</h2>
+          {section.paragraphs.map((paragraph: string) => <p>{paragraph}</p>)}
+        </section>
+      )) : pageContent.paragraphs.map((paragraph: string) => <p>{paragraph}</p>)
+    )}
+  </article>
+</Layout>

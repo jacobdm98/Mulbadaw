@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { sanityClient } from 'sanity:client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+interface Props {
+  lang: 'en' | 'sw';
+}
+
+const { lang } = Astro.props;
+const labels = {
+  en: { title: 'News & Updates', empty: 'No news articles published yet.' },
+  sw: { title: 'Habari na Taarifa', empty: 'Bado hakuna habari zilizochapishwa.' },
+};
+const text = labels[lang];
+const builder = createImageUrlBuilder({ projectId: 'tyk7mbom', dataset: 'production' });
+const articles = await sanityClient.fetch(`*[_type == "article" && defined(slug.current)] | order(publishedAt desc){ title, slug, publishedAt, mainImage }`);
+---
+
+<Layout title={text.title} lang={lang}>
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-8">{text.title}</h1>
+    {articles.length === 0 ? (
+      <p class="text-gray-500">{text.empty} <a href="/admin" class="text-blue-600 underline">/admin</a></p>
+    ) : (
+      <div class="grid gap-6">
+        {articles.map((article: any) => {
+          const title = article.title?.[lang] || article.title?.en || 'Untitled';
+          return (
+            <a href={`/${lang}/news/${article.slug.current}`} class="flex gap-4 bg-white border rounded-lg p-4 shadow-sm hover:shadow-md transition">
+              {article.mainImage && <img src={builder.image(article.mainImage).width(200).height(150).fit('crop').url()} alt={title} class="w-32 h-24 object-cover rounded" />}
+              <div>
+                <h2 class="text-xl font-semibold">{title}</h2>
+                {article.publishedAt && <p class="text-gray-400 text-sm mt-1">{new Date(article.publishedAt).toLocaleDateString(lang === 'sw' ? 'sw-TZ' : 'en-US')}</p>}
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    )}
+  </main>
+</Layout>

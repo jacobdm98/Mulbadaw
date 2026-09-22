@@ -1,0 +1,135 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { sanityClient } from 'sanity:client';
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+interface Props {
+  lang: 'en' | 'sw';
+}
+
+const { lang } = Astro.props;
+const labels = {
+  en: { heading: 'Our Photo Gallery', empty: 'No media added yet.', video: 'Video', alt: 'Gallery photo' },
+  sw: { heading: 'Maktaba Yetu ya Picha', empty: 'Bado hakuna picha au video zilizowekwa.', video: 'Video', alt: 'Picha ya maktaba' },
+};
+const text = labels[lang];
+const builder = createImageUrlBuilder({ projectId: 'tyk7mbom', dataset: 'production' });
+const gallery = await sanityClient.fetch(`*[_type == "gallery"][0]{ photos[]{ ..., image, videoFile } }`);
+const photos = gallery?.photos || [];
+
+function fileUrl(ref: string) {
+  const [, id, extension] = ref.split('-');
+  return `https://cdn.sanity.io/files/tyk7mbom/production/${id}.${extension}`;
+}
+
+function caption(item: any) {
+  return item.caption?.[lang] || item.caption?.en || '';
+}
+---
+
+<Layout title={text.heading} lang={lang}>
+  <main class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-8">{text.heading}</h1>
+
+    {photos.length === 0 ? (
+      <p class="text-gray-500">{text.empty} <a href="/admin" class="text-blue-600 underline">/admin</a></p>
+    ) : (
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {photos.map((item: any, index: number) => {
+          const isVideo = item._type === 'videoItem';
+          const imageUrl = item.image ? builder.image(item.image).width(600).height(400).fit('crop').url() : '';
+          const videoUrl = isVideo && item.videoFile?.asset?._ref ? fileUrl(item.videoFile.asset._ref) : '';
+          const itemCaption = caption(item);
+          return (
+            <button type="button" class="gallery-thumb text-left cursor-pointer bg-white border rounded-lg shadow-sm overflow-hidden flex flex-col transition hover:scale-[1.02]" data-index={index}>
+              {isVideo ? (
+                <div class="relative w-full h-60 bg-black flex items-center justify-center">
+                  <video src={videoUrl} class="w-full h-60 object-cover pointer-events-none"></video>
+                  <span class="absolute bg-black/60 text-white p-2 rounded-full text-sm">▶ {text.video}</span>
+                </div>
+              ) : (
+                imageUrl && <img src={imageUrl} alt={item.alt || text.alt} class="w-full h-60 object-cover pointer-events-none" />
+              )}
+              {itemCaption && <p class="p-4 text-gray-600 text-sm pointer-events-none">{itemCaption}</p>}
+            </button>
+          );
+        })}
+      </div>
+    )}
+
+    <div id="lightbox" class="fixed inset-0 bg-black/95 z-50 hidden flex-col items-center justify-between p-4 md:p-8">
+      <div class="w-full flex justify-end"><button id="lightbox-close" type="button" class="text-white text-3xl font-bold p-2">&times;</button></div>
+      <div class="relative flex items-center justify-center max-w-5xl w-full flex-grow">
+        <button id="lightbox-prev" type="button" class="absolute left-0 bg-white/20 text-white p-3 rounded-full text-xl z-10">&#10094;</button>
+        <div class="flex flex-col items-center max-h-[70vh] w-full justify-center">
+          <div id="lightbox-media-container" class="flex items-center justify-center max-h-[60vh] w-full"></div>
+          <p id="lightbox-caption" class="text-white mt-4 text-center text-lg"></p>
+        </div>
+        <button id="lightbox-next" type="button" class="absolute right-0 bg-white/20 text-white p-3 rounded-full text-xl z-10">&#10095;</button>
+      </div>
+      <div class="w-full overflow-x-auto py-2"><div id="lightbox-strip" class="flex items-center justify-center gap-3 min-w-max px-4"></div></div>
+    </div>
+  </main>
+</Layout>
+
+<script define:vars={{ photos, lang }}>
+  let currentIndex = 0;
+  const lightbox = document.getElementById('lightbox');
+  const mediaContainer = document.getElementById('lightbox-media-container');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const lightboxStrip = document.getElementById('lightbox-strip');
+  const fileUrl = (ref) => {
+    const [, id, extension] = ref.split('-');
+    return `https://cdn.sanity.io/files/tyk7mbom/production/${id}.${extension}`;
+  };
+  const imageUrl = (source, width, height) => {
+    const ref = source.asset._ref.split('-');
+    return `https://cdn.sanity.io/images/tyk7mbom/production/${ref[1]}-${ref[2]}.${ref[3]}?w=${width}&h=${height}&fit=crop`;
+  };
+  function updateLightbox() {
+    const item = photos[currentIndex];
+    lightboxCaption.textContent = item.caption?.[lang] || item.caption?.en || '';
+    mediaContainer.innerHTML = '';
+    if (item._type === 'videoItem' && item.videoFile?.asset?._ref) {
+      const video = document.createElement('video');
+      video.src = fileUrl(item.videoFile.asset._ref);
+      video.controls = true;
+      video.autoplay = true;
+      video.className = 'max-h-[60vh] max-w-full rounded object-contain';
+      mediaContainer.appendChild(video);
+    } else if (item.image) {
+      const img = document.createElement('img');
+      img.src = imageUrl(item.image, 1200, 800);
+      img.alt = item.alt || '';
+      img.className = 'max-h-[60vh] max-w-full rounded object-contain';
+      mediaContainer.appendChild(img);
+    }
+    lightboxStrip.innerHTML = '';
+    photos.forEach((photo, index) => {
+      const thumb = document.createElement('button');
+      thumb.type = 'button';
+      thumb.className = `cursor-pointer overflow-hidden border-2 ${index === currentIndex ? 'border-white' : 'border-transparent opacity-50'}`;
+      thumb.onclick = () => { currentIndex = index; updateLightbox(); };
+      if (photo.image) {
+        const img = document.createElement('img');
+        img.src = imageUrl(photo.image, 100, 80);
+        img.className = 'w-16 h-12 object-cover';
+        thumb.appendChild(img);
+      } else {
+        thumb.textContent = '▶';
+        thumb.className += ' w-16 h-12 bg-black text-white';
+      }
+      lightboxStrip.appendChild(thumb);
+    });
+  }
+  document.querySelectorAll('.gallery-thumb').forEach((card) => card.addEventListener('click', () => {
+    currentIndex = Number(card.getAttribute('data-index'));
+    updateLightbox();
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex');
+  }));
+  document.getElementById('lightbox-prev').onclick = () => { currentIndex = (currentIndex - 1 + photos.length) % photos.length; updateLightbox(); };
+  document.getElementById('lightbox-next').onclick = () => { currentIndex = (currentIndex + 1) % photos.length; updateLightbox(); };
+  document.getElementById('lightbox-close').onclick = () => { lightbox.classList.add('hidden'); lightbox.classList.remove('flex'); };
+  lightbox.onclick = (event) => { if (event.target === lightbox) document.getElementById('lightbox-close').click(); };
+</script>

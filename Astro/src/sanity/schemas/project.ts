@@ -1,5 +1,6 @@
 // src/sanity/schemaTypes/project.ts
 import { defineField, defineType } from 'sanity';
+import { localizedBlock, localizedString } from './BiLingual';
 
 export const project = defineType({
   name: 'project',
@@ -8,15 +9,19 @@ export const project = defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Title',
-      type: 'string',
+      title: 'Project Title',
+      type: 'object',
+      fields: [
+        { name: 'en', title: 'English', type: 'string' },
+        { name: 'sw', title: 'Swahili (Kiswahili)', type: 'string' },
+      ],
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: { source: 'title', maxLength: 96 },
+      options: { source: 'title.en', maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -28,25 +33,12 @@ export const project = defineType({
     defineField({
       name: 'description',
       title: 'Short Summary',
-      type: 'text',
-      rows: 3,
+      type: 'object',
+      fields: [
+        { name: 'en', title: 'English', type: 'text', rows: 3 },
+        { name: 'sw', title: 'Swahili (Kiswahili)', type: 'text', rows: 3 },
+      ],
     }),
-    defineField({
-      name: 'content',
-      title: 'Full Project Details',
-      type: 'array',
-      of: [{ type: 'block' }], // Enables rich text (bold, lists, etc.)
-    }),
-    defineField({
-      name: 'category',
-      title: 'Category',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Farm', value: 'farm' },
-          { title: 'Hospital', value: 'hospital' },
-        ],
-      },
-    }),
+    localizedBlock('content', 'Full Project Details'),
   ],
 });

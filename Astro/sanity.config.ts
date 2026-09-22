@@ -1,6 +1,5 @@
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
-//import { gallery } from './src/sanity/schemas/gallery';
 import { project } from './src/sanity/schemas/project';
 import { gallery } from './src/sanity/schemas/gallery';
 import { article } from './src/sanity/schemas/article';
@@ -11,7 +10,19 @@ export default defineConfig({
   title: 'Mulbadaw Farm',
   projectId: 'tyk7mbom',
   dataset: 'production',
-  plugins: [structureTool()],
+  plugins: [
+    structureTool({
+      structure: (S) =>
+        S.list()
+          .title('Content')
+          .items([
+            S.listItem()
+              .title('Gallery')
+              .child(S.document().schemaType('gallery').documentId('gallery')),
+            ...S.documentTypeListItems().filter((item) => item.getId() !== 'gallery'),
+          ]),
+    }),
+  ],
   schema: {
     types: [project, gallery, article, imageBlock, videoBlock],
   },

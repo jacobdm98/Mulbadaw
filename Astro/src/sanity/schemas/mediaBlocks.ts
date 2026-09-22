@@ -1,23 +1,29 @@
 // src/sanity/schemaTypes/mediaBlocks.ts
-import { defineType } from 'sanity';
+import { defineField, defineType } from 'sanity';
 import { localizedString } from './BiLingual';
 
 export const imageBlock = defineType({
   name: 'imageBlock',
   title: 'Image Block',
   type: 'object',
-  // Forces the block to open in a stable popup modal instead of collapsing inline
-  options: {
-    modal: { type: 'dialog' },
-  },
   fields: [
-    { name: 'image', type: 'image', title: 'Image', options: { hotspot: true } },
+    defineField({
+      name: 'image',
+      type: 'image',
+      title: 'Image',
+      options: { hotspot: true },
+      validation: (Rule) => Rule.required(),
+    }),
     localizedString('caption', 'Caption'),
   ],
   preview: {
-    select: { imageUrl: 'image.asset.url', title: 'caption.en' },
+    select: { image: 'image', 
+              title: 'caption.en'
+    },
     prepare(selection) {
-      return { title: selection.title || 'Image Block', media: selection.imageUrl };
+      return { title: selection.title || 'Image Block',
+               media: selection.image 
+      };
     }
   }
 });
@@ -26,11 +32,14 @@ export const videoBlock = defineType({
   name: 'videoBlock',
   title: 'Video Block',
   type: 'object',
-  options: {
-    modal: { type: 'dialog' },
-  },
   fields: [
-    { name: 'videoFile', type: 'file', title: 'Video File' },
+    defineField({
+      name: 'videoFile',
+      type: 'file',
+      title: 'Video File',
+      options: { accept: 'video/*' },
+      validation: (Rule) => Rule.required(),
+    }),
     localizedString('caption', 'Caption'),
   ],
   preview: {
