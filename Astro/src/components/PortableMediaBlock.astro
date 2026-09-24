@@ -1,0 +1,30 @@
+---
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+const builder = createImageUrlBuilder({
+  projectId: 'tyk7mbom',
+  dataset: 'production',
+});
+
+const { node } = Astro.props;
+const lang = Astro.url.pathname.startsWith('/sw/') ? 'sw' : 'en';
+const caption = node.caption?.[lang] || node.caption?.en || '';
+const imageUrl = node.image ? builder.image(node.image).width(1000).fit('max').url() : '';
+const videoRef = node.videoFile?.asset?._ref;
+const videoParts = videoRef?.split('-');
+const videoUrl = videoParts
+  ? `https://cdn.sanity.io/files/tyk7mbom/production/${videoParts[1]}.${videoParts[2]}`
+  : '';
+---
+
+{node._type === 'imageBlock' && node.image ? (
+  <figure class="my-6">
+    <img src={imageUrl} alt={caption} class="w-full rounded-lg" />
+    {caption ? <figcaption class="text-center text-sm text-gray-500 mt-2">{caption}</figcaption> : null}
+  </figure>
+) : node._type === 'videoBlock' && videoUrl ? (
+  <figure class="my-6">
+    <video src={videoUrl} controls class="w-full rounded-lg" />
+    {caption ? <figcaption class="text-center text-sm text-gray-500 mt-2">{caption}</figcaption> : null}
+  </figure>
+) : null}

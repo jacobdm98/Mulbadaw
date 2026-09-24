@@ -1,0 +1,21 @@
+---
+import { createImageUrlBuilder } from '@sanity/image-url';
+
+const builder = createImageUrlBuilder({
+  projectId: 'tyk7mbom',
+  dataset: 'production',
+});
+
+const { node } = Astro.props;
+const currentLang = 'en'; // Since this page is under the /en/ folder
+
+if (!node.image) return null;
+
+const captionText = node.caption?.[currentLang] || node.caption?.en || '';
+const imageUrl = builder.image(node.image).width(800).fit('max').url();
+---
+
+<figure class="my-6">
+  <img src={imageUrl} alt="" class="w-full rounded-lg shadow-sm" />
+  {captionText && <figcaption class="text-center text-sm text-gray-500 mt-2">{captionText}</figcaption>}
+</figure>

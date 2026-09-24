@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { PortableText } from 'astro-portabletext';
 import { createImageUrlBuilder } from '@sanity/image-url';
+import PortableMediaBlock from './PortableMediaBlock.astro';
 
 interface Props {
   project: any;
@@ -14,10 +15,6 @@ const description = project.description?.[lang] || project.description?.en || ''
 const content = project.content?.[lang] || project.content?.en || [];
 const builder = createImageUrlBuilder({ projectId: 'tyk7mbom', dataset: 'production' });
 const backLabel = lang === 'sw' ? 'Rudi kwenye miradi' : 'Back to projects';
-function fileUrl(ref: string) {
-  const [, id, extension] = ref.split('-');
-  return `https://cdn.sanity.io/files/tyk7mbom/production/${id}.${extension}`;
-}
 ---
 
 <Layout title={title} lang={lang}>
@@ -31,20 +28,8 @@ function fileUrl(ref: string) {
         value={content}
         components={{
           type: {
-            imageBlock: ({ node }: { node: any }) => {
-              if (!node.image) return null;
-              const caption = node.caption?.[lang] || node.caption?.en || '';
-              return (
-                <figure>
-                  <img src={builder.image(node.image).width(1000).fit('max').url()} alt={caption || title} class="w-full rounded-lg" />
-                  {caption && <figcaption class="text-center text-sm text-gray-500 mt-2">{caption}</figcaption>}
-                </figure>
-              );
-            },
-            videoBlock: ({ node }: { node: any }) => {
-              if (!node.videoFile?.asset?._ref) return null;
-              return <video src={fileUrl(node.videoFile.asset._ref)} controls class="w-full rounded-lg" />;
-            },
+            imageBlock: PortableMediaBlock,
+            videoBlock: PortableMediaBlock,
           },
         }}
       />

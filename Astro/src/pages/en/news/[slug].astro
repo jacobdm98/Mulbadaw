@@ -4,8 +4,8 @@ import Layout from '../../../layouts/Layout.astro';
 import { sanityClient } from 'sanity:client';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import { PortableText } from 'astro-portabletext';
+import PortableMediaBlock from '../../../components/PortableMediaBlock.astro';
 
-// 1. Tell Astro which static pages to generate based on Sanity slugs
 export async function getStaticPaths() {
   const articles = await sanityClient.fetch(`*[_type == "article" && defined(slug.current)]{ "slug": slug.current }`);
   
@@ -34,6 +34,13 @@ if (!article) return Astro.redirect('/404');
 
 const currentTitle = article.title?.[currentLang] || article.title?.en || 'Untitled';
 const currentBody = article.body?.[currentLang] || article.body?.en || [];
+
+const components = {
+  type: {
+    imageBlock: PortableMediaBlock,
+    videoBlock: PortableMediaBlock,
+  },
+};
 ---
 
 <Layout title={currentTitle} lang={currentLang}>
@@ -47,23 +54,7 @@ const currentBody = article.body?.[currentLang] || article.body?.en || [];
     )}
 
     <div class="prose max-w-none space-y-6">
-      <PortableText 
-        value={currentBody} 
-        components={{
-          type: {
-            imageBlock: ({ node }: { node: any }) => {
-              if (!node.image) return null; // Safely skip if no image was uploaded
-              const captionText = node.caption?.[currentLang] || node.caption?.en || '';
-              return (
-                <figure class="my-6">
-                  <img src={builder.image(node.image).width(800).fit('max').url()} alt="" class="w-full rounded-lg shadow-sm" />
-                  {captionText && <figcaption class="text-center text-sm text-gray-500 mt-2">{captionText}</figcaption>}
-                </figure>
-              );
-            }
-          }
-        }}
-      />
+      <PortableText value={currentBody} components={components} />
     </div>
   </main>
 </Layout>
