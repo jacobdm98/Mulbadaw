@@ -8,7 +8,10 @@ const builder = createImageUrlBuilder({
 
 const { node } = Astro.props;
 const lang = Astro.url.pathname.startsWith('/sw/') ? 'sw' : 'en';
-const caption = node.caption?.[lang] || node.caption?.en || '';
+const caption = lang === 'sw'
+  ? node.captionSw || node.captionEn || node.caption?.sw || node.caption?.en || ''
+  : node.captionEn || node.captionSw || node.caption?.en || node.caption?.sw || '';
+const width = Math.min(Math.max(Number(node.width) || 100, 25), 100);
 const imageUrl = node.image ? builder.image(node.image).width(1000).fit('max').url() : '';
 const videoRef = node.videoFile?.asset?._ref;
 const videoParts = videoRef?.split('-');
@@ -18,12 +21,12 @@ const videoUrl = videoParts
 ---
 
 {node._type === 'imageBlock' && node.image ? (
-  <figure class="my-6">
+  <figure class="my-6" style={`width: ${width}%;`}>
     <img src={imageUrl} alt={caption} class="w-full rounded-lg" />
     {caption ? <figcaption class="text-center text-sm text-gray-500 mt-2">{caption}</figcaption> : null}
   </figure>
 ) : node._type === 'videoBlock' && videoUrl ? (
-  <figure class="my-6">
+  <figure class="my-6" style={`width: ${width}%;`}>
     <video src={videoUrl} controls class="w-full rounded-lg" />
     {caption ? <figcaption class="text-center text-sm text-gray-500 mt-2">{caption}</figcaption> : null}
   </figure>

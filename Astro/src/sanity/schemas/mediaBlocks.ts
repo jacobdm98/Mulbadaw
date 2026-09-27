@@ -1,10 +1,10 @@
 // src/sanity/schemaTypes/mediaBlocks.ts
 import { defineField, defineType } from 'sanity';
-import { localizedString } from './BiLingual';
 
 export const imageBlock = defineType({
   name: 'imageBlock',
   title: 'Image Block',
+  options : { collapsible: false,},
   type: 'object',
   fields: [
     defineField({
@@ -14,15 +14,31 @@ export const imageBlock = defineType({
       options: { hotspot: true },
       validation: (Rule) => Rule.required(),
     }),
-    localizedString('caption', 'Caption'),
+    defineField({
+      name: 'captionEn',
+      title: 'Caption (English)',
+      type: 'string', // Changed from 'text' to 'string' to prevent popover closing bugs
+    }),
+    defineField({
+      name: 'captionSw',
+      title: 'Caption (Swahili)',
+      type: 'string', // Changed from 'text' to 'string'
+    }),
+    defineField({
+      name: 'width',
+      title: 'Display Width (%)',
+      type: 'number',
+      initialValue: 100,
+      min: 25,
+      max: 100,
+    }),
   ],
   preview: {
-    select: { image: 'image', 
-              title: 'caption.en'
-    },
+    select: { image: 'image' },
     prepare(selection) {
-      return { title: selection.title || 'Image Block',
-               media: selection.image 
+      return { 
+        title: 'Image Block', 
+        media: selection.image 
       };
     }
   }
@@ -40,12 +56,28 @@ export const videoBlock = defineType({
       options: { accept: 'video/*' },
       validation: (Rule) => Rule.required(),
     }),
-    localizedString('caption', 'Caption'),
+    defineField({
+      name: 'captionEn',
+      title: 'Caption (English)',
+      type: 'string', // Changed from 'text' to 'string'
+    }),
+    defineField({
+      name: 'captionSw',
+      title: 'Caption (Swahili)',
+      type: 'string', // Changed from 'text' to 'string'
+    }),
+    defineField({
+      name: 'width',
+      title: 'Display Width (%)',
+      type: 'number',
+      initialValue: 100,
+      min: 25,
+      max: 100,
+    }),
   ],
   preview: {
-    select: { title: 'caption.en' },
-    prepare(selection) {
-      return { title: selection.title || 'Video Block' };
+    prepare() {
+      return { title: 'Video Block' };
     }
   }
 });
