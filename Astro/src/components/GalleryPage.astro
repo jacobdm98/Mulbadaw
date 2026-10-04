@@ -96,7 +96,7 @@ const text = labels[lang];
       useCdn: false,
     });
 
-    const query = '*[_type == "gallery" && _id == "gallery"][0]{ photos[] }';
+    const query = '*[_type == "gallery"][0]{ photos[] }';
     let photos: GalleryItem[] = [];
     let currentIndex = 0;
 
