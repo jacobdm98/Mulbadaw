@@ -3,7 +3,7 @@ import { structureTool } from 'sanity/structure';
 import { project } from './src/sanity/schemas/project';
 import { gallery } from './src/sanity/schemas/gallery';
 import { article } from './src/sanity/schemas/article';
-import { imageBlock, videoBlock } from './src/sanity/schemas/mediaBlocks';
+import { imageBlock, imageGalleryBlock, videoBlock } from './src/sanity/schemas/mediaBlocks';
 import { aboutPage } from './src/sanity/schemas/aboutPage';
 import { historyPage } from './src/sanity/schemas/historyPage';
 import { contactPage } from './src/sanity/schemas/contactPage';
@@ -38,6 +38,6 @@ export default defineConfig({
     }),
   ],
   schema: {
-    types: [project, gallery, aboutPage, historyPage, contactPage, article, imageBlock, videoBlock],
+    types: [project, gallery, aboutPage, historyPage, contactPage, article, imageBlock, imageGalleryBlock, videoBlock],
   },
 });

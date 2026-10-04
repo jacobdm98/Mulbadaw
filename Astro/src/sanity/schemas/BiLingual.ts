@@ -12,6 +12,13 @@ export const localizedString = (name: string, title: string) =>
     ],
   });
 
+export const localizedTitlePreview = (fallbackTitle: string) => ({
+  select: { title: 'title.en' },
+  prepare(selection: { title?: string }) {
+    return { title: selection.title || fallbackTitle };
+  },
+});
+
 export const localizedBlock = (name: string, title: string) =>
   defineField({
     name,
@@ -26,6 +33,7 @@ export const localizedBlock = (name: string, title: string) =>
         of: [
           defineArrayMember({ type: 'block' }),
           defineArrayMember({ type: 'imageBlock' }),
+          defineArrayMember({ type: 'imageGalleryBlock' }),
           defineArrayMember({ type: 'videoBlock' }),
         ],
       },
@@ -36,6 +44,7 @@ export const localizedBlock = (name: string, title: string) =>
         of: [
           defineArrayMember({ type: 'block' }),
           defineArrayMember({ type: 'imageBlock' }),
+          defineArrayMember({ type: 'imageGalleryBlock' }),
           defineArrayMember({ type: 'videoBlock' }),
         ],
       },

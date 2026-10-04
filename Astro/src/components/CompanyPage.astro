@@ -21,7 +21,13 @@ const localized = (field: any) => field?.[lang] || field?.en || '';
 const title = localized(pageData?.title);
 const content = pageData?.content?.[lang] || pageData?.content?.en || [];
 const builder = createImageUrlBuilder({ projectId: 'tyk7mbom', dataset: 'production' });
-const mediaComponents = { type: { imageBlock: PortableMediaBlock, videoBlock: PortableMediaBlock } };
+const mediaComponents = {
+  type: {
+    imageBlock: PortableMediaBlock,
+    imageGalleryBlock: PortableMediaBlock,
+    videoBlock: PortableMediaBlock,
+  },
+};
 const official = pageData?.details;
 const employees = pageData?.employees || [];
 ---

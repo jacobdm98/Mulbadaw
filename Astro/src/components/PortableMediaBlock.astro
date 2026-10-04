@@ -11,22 +11,52 @@ const lang = Astro.url.pathname.startsWith('/sw/') ? 'sw' : 'en';
 const caption = lang === 'sw'
   ? node.captionSw || node.captionEn || node.caption?.sw || node.caption?.en || ''
   : node.captionEn || node.captionSw || node.caption?.en || node.caption?.sw || '';
-const width = Math.min(Math.max(Number(node.width) || 100, 25), 100);
-const imageUrl = node.image ? builder.image(node.image).width(1000).fit('max').url() : '';
+const layouts: Record<string, string> = {
+  standard: 'w-full md:w-3/4 mx-auto',
+  wide: 'w-full',
+  floatLeft: 'w-full md:float-left md:w-2/5 md:mr-6 md:mb-2',
+  floatRight: 'w-full md:float-right md:w-2/5 md:ml-6 md:mb-2',
+  compact: 'w-full md:w-3/4 mx-auto',
+};
+const layoutClass = layouts[node.layout] || layouts.standard;
+const legacyWidth = node.layout ? undefined : Number(node.width);
+const legacyStyle = legacyWidth && Number.isFinite(legacyWidth)
+  ? `width: ${Math.min(Math.max(legacyWidth, 25), 100)}%;`
+  : undefined;
+const imageUrl = (image: any, width = 1200, height?: number) => {
+  if (!image) return '';
+  const imageBuilder = builder.image(image).width(width);
+  return (height ? imageBuilder.height(height).fit('crop') : imageBuilder.fit('max')).url();
+};
 const videoRef = node.videoFile?.asset?._ref;
 const videoParts = videoRef?.split('-');
 const videoUrl = videoParts
   ? `https://cdn.sanity.io/files/tyk7mbom/production/${videoParts[1]}.${videoParts[2]}`
   : '';
+const images = node.images || [];
 ---
 
 {node._type === 'imageBlock' && node.image ? (
-  <figure class="my-6" style={`width: ${width}%;`}>
-    <img src={imageUrl} alt={caption} class="w-full rounded-lg" />
+  <figure class:list={['my-6', layoutClass]} style={legacyStyle}>
+    <img src={imageUrl(node.image)} alt={caption} class="w-full rounded-lg" loading="lazy" />
     {caption ? <figcaption class="text-center text-sm text-gray-500 mt-2">{caption}</figcaption> : null}
   </figure>
+) : node._type === 'imageGalleryBlock' && images.length > 0 ? (
+  <div class="my-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+    {images.map((item: any) => {
+      const itemCaption = lang === 'sw'
+        ? item.captionSw || item.captionEn || ''
+        : item.captionEn || item.captionSw || '';
+      return (
+        <figure>
+          <img src={imageUrl(item.image, 900, 675)} alt={itemCaption} class="w-full aspect-[4/3] object-cover rounded-lg" loading="lazy" />
+          {itemCaption ? <figcaption class="text-center text-sm text-gray-500 mt-2">{itemCaption}</figcaption> : null}
+        </figure>
+      );
+    })}
+  </div>
 ) : node._type === 'videoBlock' && videoUrl ? (
-  <figure class="my-6" style={`width: ${width}%;`}>
+  <figure class:list={['my-6', layoutClass]} style={legacyStyle}>
     <video src={videoUrl} controls class="w-full rounded-lg" />
     {caption ? <figcaption class="text-center text-sm text-gray-500 mt-2">{caption}</figcaption> : null}
   </figure>

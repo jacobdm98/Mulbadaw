@@ -1,11 +1,12 @@
 // src/sanity/schemaTypes/project.ts
 import { defineField, defineType } from 'sanity';
-import { localizedBlock, localizedString } from './BiLingual';
+import { localizedBlock, localizedTitlePreview } from './BiLingual';
 
 export const project = defineType({
   name: 'project',
   title: 'Project',
   type: 'document',
+  preview: localizedTitlePreview('Untitled project'),
   fields: [
     defineField({
       name: 'title',

@@ -1,5 +1,5 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
-import { localizedString } from './BiLingual';
+import { localizedString, localizedTitlePreview } from './BiLingual';
 
 const contactDetails = (title: string) =>
   defineField({
@@ -19,6 +19,7 @@ export const contactPage = defineType({
   title: 'Contact Page',
   type: 'document',
   __experimental_actions: ['update', 'publish'],
+  preview: localizedTitlePreview('Contact Page'),
   fields: [
     localizedString('title', 'Page Title'),
     localizedString('intro', 'Introduction'),
