@@ -14,7 +14,7 @@ const labels = {
 };
 const text = labels[lang];
 const builder = createImageUrlBuilder({ projectId: 'tyk7mbom', dataset: 'production' });
-const gallery = await sanityClient.fetch(`*[_type == "gallery"][0]{ photos[] }`);
+const gallery = await sanityClient.fetch(`*[_type == "gallery" && _id == "gallery"][0]{ photos[] }`);
 const photos = gallery?.photos || [];
 
 function fileUrl(ref: string) {
