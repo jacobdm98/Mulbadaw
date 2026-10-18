@@ -1,5 +1,6 @@
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
+import { previewAction } from './src/sanity/previewAction';
 import { project } from './src/sanity/schemas/project';
 import { gallery } from './src/sanity/schemas/gallery';
 import { article } from './src/sanity/schemas/article';
@@ -37,6 +38,9 @@ export default defineConfig({
           ]),
     }),
   ],
+  document: {
+    actions: (previousActions) => [previewAction, ...previousActions],
+  },
   schema: {
     types: [project, gallery, aboutPage, historyPage, contactPage, article, imageBlock, imageGalleryBlock, videoBlock],
   },
