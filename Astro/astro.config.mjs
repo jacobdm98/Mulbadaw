@@ -19,4 +19,8 @@ export default defineConfig({
       studioBasePath: '/admin',
     }),
   ],
+
+  redirects: {
+    '/': '/sw',
+  },
 });
